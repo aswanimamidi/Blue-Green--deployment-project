@@ -8,7 +8,7 @@ pipeline {
     }
     
     environment {
-        IMAGE_NAME = "jettinagateja/bankapp"
+        IMAGE_NAME = "aswani/bankapp"
         TAG = "${params.DOCKER_TAG}"  // The image tag now comes from the parameter
         KUBE_NAMESPACE = 'webapps'
         SCANNER_HOME= tool 'sonar-scanner'
@@ -64,7 +64,7 @@ pipeline {
         stage('Deploy MySQL Deployment and Service') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://7874F0CB40CA929261E6AB69A96F6773.gr7.us-east-1.eks.amazonaws.com') {
+                    withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://1AC1B24B9DF2383A2C5FF394027471CF.sk1.ap-south-1.eks.amazonaws.com') {
                         sh "kubectl apply -f mysql-ds.yml -n ${KUBE_NAMESPACE}"  // Ensure you have the MySQL deployment YAML ready
                     }
                 }
@@ -74,7 +74,7 @@ pipeline {
         stage('Deploy SVC-APP') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://7874F0CB40CA929261E6AB69A96F6773.gr7.us-east-1.eks.amazonaws.com') {
+                    withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://1AC1B24B9DF2383A2C5FF394027471CF.sk1.ap-south-1.eks.amazonaws.com') {
                         sh """ if ! kubectl get svc bankapp-service -n ${KUBE_NAMESPACE}; then
                                 kubectl apply -f bankapp-service.yml -n ${KUBE_NAMESPACE}
                               fi
